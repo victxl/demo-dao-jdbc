@@ -14,7 +14,7 @@ public class Program {
 
         VendedorDao vendedorDao = DaoFactory.createVendedorDao();
 
-        Vendedor vendedor = vendedorDao.findById(3);
+        Vendedor vendedor = vendedorDao.findById(1);
 
 
         System.out.println(vendedor);

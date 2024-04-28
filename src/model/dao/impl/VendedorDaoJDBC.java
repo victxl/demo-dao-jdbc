@@ -14,10 +14,10 @@ import java.util.List;
 
 public class VendedorDaoJDBC  implements VendedorDao {
 
-    private Connection connection;
+    private Connection conn;
 
-    public VendedorDaoJDBC(Connection connection) {
-        this.connection = connection;
+    public VendedorDaoJDBC(Connection conn) {
+        this.conn = conn;
     }
 
     public VendedorDaoJDBC() {
@@ -44,13 +44,15 @@ public class VendedorDaoJDBC  implements VendedorDao {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = connection.prepareStatement(
-                    "select vendedor.*, departamento.Nome as NomeDep" +
-                            "from vendedor INNER JOIN departamento"+
-                            "on vendedor.idDepartamento = departamento.id"+
+            st = conn.prepareStatement(
+
+                    "SELECT vendedor.*, departamento.Nome AS NomeDep " +
+                            "FROM vendedor JOIN departamento " +
+                            "ON vendedor.idDepartamento = departamento.id " +
                             "WHERE vendedor.id = ?");
 
-                st.setInt(1,id);
+
+            st.setInt(1,id);
                 rs = st.executeQuery();
                 if(rs.next()) {
                     Departamento dep = new Departamento();
@@ -61,7 +63,7 @@ public class VendedorDaoJDBC  implements VendedorDao {
                     obj.setId(rs.getInt("Id"));
                     obj.setNome(rs.getString("Nome"));
                     obj.setEmail(rs.getString("Email"));
-                    obj.setSalario(rs.getDouble("Salario"));
+                    obj.setSalario(rs.getDouble("SalarioBase"));
                     obj.setDataNascimento(rs.getDate("DataNascimento"));
                     obj.setDepartamento(dep);
                     return obj;
