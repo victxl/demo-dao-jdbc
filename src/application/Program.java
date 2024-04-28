@@ -13,7 +13,7 @@ public class Program {
 
 
         VendedorDao vendedorDao = DaoFactory.createVendedorDao();
-
+        System.out.println("***** TESTE 1: findByID VENDEDOR *****");
         Vendedor vendedor = vendedorDao.findById(1);
 
 
