@@ -10,13 +10,13 @@ import java.util.Date;
 public class Program {
     public static void main(String[] args) {
 
-        Departamento departamento = new Departamento(1,"Book");
 
-        Vendedor vendedor = new Vendedor(21,"Victor","victxl@gamil.com",new Date(),3000,departamento);
 
         VendedorDao vendedorDao = DaoFactory.createVendedorDao();
 
-        System.out.println(departamento);
+        Vendedor vendedor = vendedorDao.findById(3);
+
+
         System.out.println(vendedor);
 
 
