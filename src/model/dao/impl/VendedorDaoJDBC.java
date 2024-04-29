@@ -32,12 +32,8 @@ public class VendedorDaoJDBC implements VendedorDao {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "INSERT INTO vendedor " +
-                            "(Nome, Email, DataNascimento, SalarioBase, IdDepartamento) " +
-                            "VALUES " +
-                            "(?, ?, ?, ?, ?)",
-                    PreparedStatement.RETURN_GENERATED_KEYS
-            );
+                    "INSERT INTO vendedor (Nome, Email, DataNascimento, SalarioBase, IdDepartamento) VALUES (?, ?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setDate(3, new java.sql.Date(obj.getDataNascimento().getTime()));
@@ -52,8 +48,7 @@ public class VendedorDaoJDBC implements VendedorDao {
                     obj.setId(id);
                 }
                 DB.closeResultSet(rs);
-            }
-            else {
+            } else {
                 throw new DbException("Erro ao inserir vendedor");
             }
         } catch (SQLException e) {
@@ -65,6 +60,25 @@ public class VendedorDaoJDBC implements VendedorDao {
 
     @Override
     public void updateVendedor(Vendedor obj) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+            "UPDATE vendedor set Nome = ?, Email = ?, DataNascimento = ?, SalarioBase = ?, IdDepartamento = ? WHERE Id = ?");
+
+            st.setString(1, obj.getNome());
+            st.setString(2, obj.getEmail());
+            st.setDate(3, new java.sql.Date(obj.getDataNascimento().getTime()));
+            st.setDouble(4, obj.getSalario());
+            st.setInt(5, obj.getDepartamento().getId());
+            st.setInt(6, obj.getId());
+
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException("Erro ao inserir novo vendedor: " + e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+        }
 
     }
 
