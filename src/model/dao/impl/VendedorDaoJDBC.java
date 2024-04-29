@@ -63,7 +63,7 @@ public class VendedorDaoJDBC implements VendedorDao {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-            "UPDATE vendedor set Nome = ?, Email = ?, DataNascimento = ?, SalarioBase = ?, IdDepartamento = ? WHERE Id = ?");
+                    "UPDATE vendedor set Nome = ?, Email = ?, DataNascimento = ?, SalarioBase = ?, IdDepartamento = ? WHERE Id = ?");
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
@@ -83,7 +83,20 @@ public class VendedorDaoJDBC implements VendedorDao {
     }
 
     @Override
-    public void deleteVendedor(Vendedor obj) {
+    public void deleteVendedor(int id) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE from vendedor where Id = ?");
+
+            st.setInt(1,
+                    id);
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException("Erro ao deletar vendedor: " + e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+        }
 
     }
 
