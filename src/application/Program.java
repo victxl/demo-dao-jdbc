@@ -14,21 +14,24 @@ public class Program {
 
 
         VendedorDao vendedorDao = DaoFactory.createVendedorDao();
+
         System.out.println("*****      TESTE 1: findByID VENDEDOR      *****");
         Vendedor vendedor = vendedorDao.findById(3);
         System.out.println(vendedor);
+
         System.out.println();
         System.out.println("***** TESTE 2: findByDepartamento VENDEDOR *****");
         Departamento departamento = new Departamento(2,null);
-
         List<Vendedor> list = vendedorDao.findByDepartamento(departamento);
         for(Vendedor v : list){
             System.out.println(v);
         }
 
-
-        System.out.println(vendedor);
-
-
+        System.out.println();
+        System.out.println("***** TESTE 4: findByDepartamento VENDEDOR *****");
+        list = vendedorDao.findAll();
+        for(Vendedor v : list){
+            System.out.println(v);
+        }
     }
 }
