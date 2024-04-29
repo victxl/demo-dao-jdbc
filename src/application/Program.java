@@ -28,10 +28,16 @@ public class Program {
         }
 
         System.out.println();
-        System.out.println("***** TESTE 4: findByDepartamento VENDEDOR *****");
+        System.out.println("***** TESTE 3: findByDepartamento VENDEDOR *****");
         list = vendedorDao.findAll();
         for(Vendedor v : list){
             System.out.println(v);
         }
+
+        System.out.println();
+        System.out.println("***** TESTE 4: findByDepartamento VENDEDOR *****");
+        Vendedor novoVendedor = new Vendedor(null,"Victor","victxl@gmail.com",new Date(), 4000,departamento);
+        vendedorDao.insertVendedor(novoVendedor);
+        System.out.println("Vendedor inserido com sucesso! "+novoVendedor.getId());
     }
 }

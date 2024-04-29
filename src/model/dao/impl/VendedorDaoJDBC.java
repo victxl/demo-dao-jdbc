@@ -29,7 +29,38 @@ public class VendedorDaoJDBC implements VendedorDao {
 
     @Override
     public void insertVendedor(Vendedor obj) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+                    "INSERT INTO vendedor " +
+                            "(Nome, Email, DataNascimento, SalarioBase, IdDepartamento) " +
+                            "VALUES " +
+                            "(?, ?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            st.setString(1, obj.getNome());
+            st.setString(2, obj.getEmail());
+            st.setDate(3, new java.sql.Date(obj.getDataNascimento().getTime()));
+            st.setDouble(4, obj.getSalario());
+            st.setInt(5, obj.getDepartamento().getId());
 
+            int rowsAffected = st.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    obj.setId(id);
+                }
+                DB.closeResultSet(rs);
+            }
+            else {
+                throw new DbException("Erro ao inserir vendedor");
+            }
+        } catch (SQLException e) {
+            throw new DbException("Erro ao inserir novo vendedor: " + e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override
